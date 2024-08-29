@@ -1,0 +1,13 @@
+/* src/components/TodoList.module.css */
+
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.emptyMessage {
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+  margin-top: 20px;
+}

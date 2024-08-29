@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import styles from './LoginPage.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Basic form validation
+    if (!username || !password) {
+      toast.error('Both username and password are required.');
+      return;
+    }
+
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, {
         username,
@@ -17,30 +26,42 @@ function LoginPage() {
       });
       localStorage.setItem('token', response.data.token);
       navigate('/todos');
+      toast.success('Logged in successfully!');
     } catch (error) {
-      setError('Invalid username or password');
+      toast.error('Invalid username or password');
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className={styles.loginContainer}>
+      <div className={styles.loginCard}>
+        <h2>Login</h2>
+        <form onSubmit={handleLogin}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username"
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+            />
+          </div>
+          <button type="submit" className={styles.button}>
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

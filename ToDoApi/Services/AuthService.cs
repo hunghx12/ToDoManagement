@@ -11,9 +11,8 @@ namespace TodoApi.Services
         private readonly string _issuer;
         private readonly string _audience;
 
-        // Pre-defined username and password
-        private readonly string _validUsername = "testuser";
-        private readonly string _validPassword = "password123";
+        private readonly string _validUsername = "test";
+        private readonly string _validPassword = "test";
 
         public AuthService(IConfiguration config)
         {
@@ -24,7 +23,6 @@ namespace TodoApi.Services
 
         public bool ValidateUser(string username, string password)
         {
-            // Validate the username and password against pre-defined values
             return username == _validUsername && password == _validPassword;
         }
 
@@ -34,10 +32,10 @@ namespace TodoApi.Services
             var key = Encoding.ASCII.GetBytes(_key);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
+                Subject = new ClaimsIdentity(
+                [
                     new Claim(ClaimTypes.Name, _validUsername)
-                }),
+                ]),
                 Expires = DateTime.UtcNow.AddDays(7),
                 Issuer = _issuer,
                 Audience = _audience,
