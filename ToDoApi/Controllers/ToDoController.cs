@@ -11,7 +11,10 @@ namespace TodoApi.Controllers
     {
         private static List<TodoItem> Todos =
         [
-            new TodoItem { Id = 1, Text = "Sample Todo 1", Completed = false }
+            new TodoItem { Id = 1, Text = "Do project for OnQ", Completed = true },
+            new TodoItem { Id = 2, Text = "Prepare for the interview", Completed = true },
+            new TodoItem { Id = 3, Text = "Interview on Friday", Completed = false },
+            new TodoItem { Id = 4, Text = "Wait for next step", Completed = false }
         ];
 
         [HttpGet]

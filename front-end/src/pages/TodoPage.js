@@ -13,7 +13,6 @@ function TodoPage() {
     const token = localStorage.getItem('token');
 
     if (!token) {
-      // If no token, show a toast message and redirect to login
       toast.error("You haven't logged in yet.");
       navigate('/');
       return;
@@ -28,9 +27,8 @@ function TodoPage() {
         setTodos(response.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          // If token error (unauthorized), show a toast message and redirect to login
           toast.error("Token error or expired. Please log in again.");
-          localStorage.removeItem('token'); // Remove the invalid token
+          localStorage.removeItem('token');
           navigate('/');
         } else {
           console.error('Error fetching todos:', error);
