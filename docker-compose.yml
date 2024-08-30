@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_BACKEND_URL: http://localhost:5000
+    ports:
+      - "3000:80"
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./ToDoApi
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    networks:
+      - app-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+networks:
+  app-network:
+    driver: bridge
